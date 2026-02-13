@@ -1,0 +1,14 @@
+# Private keys (never commit!)
+*.pem
+*.key
+id_*
+!*.pub
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.bak
+~$*

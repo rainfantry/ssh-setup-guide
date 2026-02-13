@@ -6,6 +6,7 @@ Complete documentation for setting up and troubleshooting OpenSSH server on Wind
 
 - **[windows-ssh-setup.md](windows-ssh-setup.md)** - Windows SSH server setup guide
 - **[linux-ssh-setup.md](linux-ssh-setup.md)** - Linux SSH server setup guide
+- **[git-cli-beginner-guide.md](git-cli-beginner-guide.md)** - Git command line beginner's guide
 
 ## 🚀 Quick Start
 

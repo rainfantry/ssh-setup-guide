@@ -4,11 +4,12 @@ Complete documentation for setting up and troubleshooting OpenSSH server on Wind
 
 ## 📚 Contents
 
-- **[windows-ssh-setup.md](windows-ssh-setup.md)** - Complete setup and troubleshooting guide
+- **[windows-ssh-setup.md](windows-ssh-setup.md)** - Windows SSH server setup guide
+- **[linux-ssh-setup.md](linux-ssh-setup.md)** - Linux SSH server setup guide
 
 ## 🚀 Quick Start
 
-### For Administrators
+### Windows (For Administrators)
 
 ```powershell
 # 1. Enable SSH services
@@ -33,6 +34,34 @@ Set-NetFirewallRule -DisplayName "OpenSSH SSH Server (sshd)" -Profile Any
 Restart-Service sshd
 ```
 
+### Linux
+
+```bash
+# Install SSH (Ubuntu/Debian)
+sudo apt install openssh-server -y
+
+# Generate key
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# Add public key to authorized_keys
+mkdir -p ~/.ssh
+echo "your-ssh-public-key-here" >> ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+
+# Configure SSH
+sudo sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
+sudo sed -i 's/^#*PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+sudo sed -i 's/^#*PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+
+# Enable firewall
+sudo ufw allow ssh
+sudo ufw enable
+
+# Restart SSH
+sudo systemctl restart sshd
+```
+
 ## 🔍 Common Issues
 
 | Issue | Solution |
@@ -44,6 +73,7 @@ Restart-Service sshd
 
 ## 📖 Full Documentation
 
+### Windows
 See [windows-ssh-setup.md](windows-ssh-setup.md) for complete documentation including:
 - Initial setup steps
 - Key-based authentication configuration
@@ -52,12 +82,30 @@ See [windows-ssh-setup.md](windows-ssh-setup.md) for complete documentation incl
 - Common mistakes to avoid
 - Complete command reference
 
+### Linux
+See [linux-ssh-setup.md](linux-ssh-setup.md) for complete documentation including:
+- Installation steps for all major distros
+- Service management with systemd
+- UFW, firewalld, and iptables configuration
+- SELinux considerations
+- Security hardening
+- Fail2Ban setup
+- Two-factor authentication
+
 ## 🎯 Key Points
+
+### Windows
 
 1. **Administrators** must use `C:\ProgramData\ssh\administrators_authorized_keys`
 2. **Always set permissions** after modifying authorized_keys
 3. **Use multi-line Set-Content** or Add-Content to avoid overwriting keys
 4. **Enable firewall for all network profiles** (Private, Public, Domain)
+
+### Linux
+1. **Set correct permissions** (700 for .ssh, 600 for authorized_keys)
+2. **Always test config** before restarting: `sudo sshd -t`
+3. **Keep backup session open** when disabling password auth
+4. **Configure firewall** (ufw/firewalld) to allow SSH
 
 ## 📝 Author
 
